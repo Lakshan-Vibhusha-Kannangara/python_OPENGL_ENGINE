@@ -1,12 +1,14 @@
 import numpy as np
 
+
 class VBO:
-    def __init__(self,ctx):
-        self.vbos ={}
+    def __init__(self, ctx):
+        self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
+
 
 class BaseVBO:
 
@@ -30,7 +32,7 @@ class BaseVBO:
 
 class CubeVBO(BaseVBO):
     def __init__(self, ctx):
-        super.__init__(ctx)
+        super().__init__(ctx)
         self.format = '2f 3f 3f'
         self.attribs = ['in_texcoord_0', 'in_normal', 'in_position']
 
