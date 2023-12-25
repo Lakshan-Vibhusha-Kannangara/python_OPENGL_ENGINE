@@ -2,7 +2,8 @@ import pygame as pg
 import moderngl as mgl
 import sys
 
-from model import Triangle
+from model import Cube
+from camera import Camera
 
 
 class GameEngine:
@@ -16,7 +17,9 @@ class GameEngine:
         pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
         self.ctx = mgl.create_context()
         self.clock = pg.time.Clock()
-        self.scene = Triangle(self)
+        self.camera = Camera(self)
+        self.scene = Cube(self)
+
 
     def check_events(self):
         for event in pg.event.get():
