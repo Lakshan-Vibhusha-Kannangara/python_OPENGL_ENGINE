@@ -2,6 +2,7 @@ import numpy as np
 import glm
 import pygame as pg
 
+
 class Cube:
 
     def __init__(self, app):
@@ -11,22 +12,27 @@ class Cube:
         self.shader_program = self.get_shader_program('default')
         self.vao = self.get_vao()
         self.m_model = self.get_model_matrix()
-        self.texture =self.get_texture(path='textures/img.png')
+        self.texture = self.get_texture(path='textures/img.png')
         self.on_init()
 
     def update(self):
         m_model = glm.rotate(self.m_model, self.app.time, glm.vec3(0, 1, 0))
         self.shader_program['m_model'].write(m_model)
         self.shader_program['m_view'].write(self.app.camera.m_view)
+        self.shader_program['camPos'].write(self.app.camera.position)
 
-    def get_texture(self,path):
+    def get_texture(self, path):
         texture = pg.image.load(path).convert()
-        texture = pg.transform.flip(texture,flip_x=False,flip_y=True)
-        texture.fill('red')
-        texture = self.ctx.texture(size=texture.get_size(),components=3,data=pg.image.tostring(texture,'RGB'))
+        texture = pg.transform.flip(texture, flip_x=False, flip_y=True)
+        #texture.fill('red')
+        texture = self.ctx.texture(size=texture.get_size(), components=3, data=pg.image.tostring(texture, 'RGB'))
         return texture
 
     def on_init(self):
+        self.shader_program['light.position'].write(self.app.light.position)
+        self.shader_program['light.Ia'].write(self.app.light.Ia)
+        self.shader_program['light.Id'].write(self.app.light.Id)
+        self.shader_program['light.Is'].write(self.app.light.Is)
         self.shader_program['u_texture_0'] = 0
         self.texture.use()
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
@@ -34,7 +40,7 @@ class Cube:
         self.shader_program['m_model'].write(self.app.camera.m_model)
 
     def get_vao(self):
-        vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, '2f 3f', 'in_texcoord_0', 'in_position')])
+        vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, '2f 3f 3f', 'in_texcoord_0','in_normal', 'in_position')])
         return vao
 
     def get_vertex_data(self):
@@ -61,8 +67,15 @@ class Cube:
                              (3, 1, 2), (3, 0, 1)]
 
         tex_coord_data = self.get_data(tex_coord, tex_coord_indices)
-
-        vertex_data = np.hstack([tex_coord_data,vertex_data])
+        normals = [(0, 0, 1) * 6,
+                   (1, 0, 0) * 6,
+                   (0, 0, -1) * 6,
+                   (-1, 0, 0) * 6,
+                   (0, 1, 0) * 6,
+                   (0, -1, 0) * 6]
+        normals = np.array(normals, dtype='f4').reshape(36, 3)
+        vertex_data = np.hstack([normals,vertex_data])
+        vertex_data = np.hstack([tex_coord_data, vertex_data])
         return vertex_data
 
     @staticmethod
