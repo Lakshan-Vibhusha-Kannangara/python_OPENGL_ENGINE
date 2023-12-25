@@ -6,7 +6,7 @@ import sys
 from model import Cube
 from camera import Camera
 from light import Light
-
+from mesh import Mesh
 class GameEngine:
     def __init__(self, win_size=(1600, 900)):
         pg.init()
@@ -25,6 +25,7 @@ class GameEngine:
         self.delta_time = 0
         self.light = Light()
         self.camera = Camera(self)
+        self.mesh = Mesh(self)
         self.scene = Cube(self)
 
     def get_time(self):
@@ -34,6 +35,7 @@ class GameEngine:
     def check_events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+                self.mesh.destroy()
                 self.scene.destroy()
                 pg.quit()
                 sys.exit()

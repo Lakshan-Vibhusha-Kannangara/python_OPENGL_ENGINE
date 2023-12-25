@@ -3,6 +3,28 @@ import glm
 import pygame as pg
 
 
+class BaseModel:
+
+    def __init__(self,app,vao_name,tex_id):
+        self.app = app
+        self.m_model = self.get_model_matrix()
+        self.tex_id = tex_id
+        self.vao = app.mesh.vao.vaos[vao_name]
+        self.program = self.vao.program
+        self.camera = self.app.camera
+
+    def update(self):
+        pass
+
+    def get_model_matrix(self):
+        m_model = glm.mat4()
+        return m_model
+
+    def render(self):
+        self.update()
+        self.vao.render()
+
+
 class Cube:
 
     def __init__(self, app):
