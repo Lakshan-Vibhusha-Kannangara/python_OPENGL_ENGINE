@@ -7,6 +7,7 @@ from model import Cube
 from camera import Camera
 from light import Light
 from mesh import Mesh
+from scene import *
 class GameEngine:
     def __init__(self, win_size=(1600, 900)):
         pg.init()
@@ -26,7 +27,7 @@ class GameEngine:
         self.light = Light()
         self.camera = Camera(self)
         self.mesh = Mesh(self)
-        self.scene = Cube(self)
+        self.scene = Scene(self)
 
     def get_time(self):
         self.time = pg.time.get_ticks()* 0.001
