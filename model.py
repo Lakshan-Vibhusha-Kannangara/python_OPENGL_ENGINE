@@ -33,9 +33,9 @@ class BaseModel:
         self.vao.render()
 
 
-class Cube(BaseModel):
+class ExtendedBaseModel(BaseModel):
 
-    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+    def __init__(self, app, vao_name, tex_id, pos, rot, scale):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self.on_init()
 
@@ -60,47 +60,40 @@ class Cube(BaseModel):
         self.program['light.Is'].write(self.app.light.Is)
 
         # Use create_vao method to create a new VAO for each cube
-        self.vao = self.app.mesh.vao.create_vao(vbo_name='cube', program_name='default')
+
 
     def destroy(self):
         pass
 
 
-class Cat(BaseModel):
+class Cube(ExtendedBaseModel):
+
+    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
+
+class Cat(ExtendedBaseModel):
 
     def __init__(self, app, vao_name='cat', tex_id='cat', pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
+
+class SkyBox(BaseModel):
+
+    def __init__(self, app, vao_name='skybox', tex_id='skybox', pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self.on_init()
 
     def update(self):
-        self.texture.use()
-        self.program['camPos'].write(self.camera.position)
-        self.program['m_view'].write(self.camera.m_view)
-        self.program['m_model'].write(self.m_model)
+        self.program['m_view'].write(glm.mat4(glm.mat3(self.camera.m_view)))
 
     def on_init(self):
+        # texture
         self.texture = self.app.mesh.texture.textures[self.tex_id]
-        self.program['u_texture_0'] = 0
-        self.texture.use()
+        self.program['u_texture_skybox'] = 0
+        self.texture.use(location=0)
 
+        # mvp
         self.program['m_proj'].write(self.camera.m_proj)
-        self.program['m_view'].write(self.camera.m_view)
-        self.program['m_model'].write(self.m_model)
+        self.program['m_view'].write(glm.mat4(glm.mat3(self.camera.m_view)))
 
-        self.program['light.position'].write(self.app.light.position)
-        self.program['light.Ia'].write(self.app.light.Ia)
-        self.program['light.Id'].write(self.app.light.Id)
-        self.program['light.Is'].write(self.app.light.Is)
-
-        # Use create_vao method to create a new VAO for each cube
-        self.vao = self.app.mesh.vao.create_vao(vbo_name='cube', program_name='default')
-        self.vao = self.app.mesh.vao.create_vao(vbo_name='cat', program_name='default')
-
-    def destroy(self):
-        # Optionally implement cleanup logic here
-        print(f"Destroying {self.__class__.__name__} instance")
-
-        # Release any resources, buffers, etc.
-        # For example, you might want to release the VAO
-        if hasattr(self, 'vao'):
-            self.vao.delete()
