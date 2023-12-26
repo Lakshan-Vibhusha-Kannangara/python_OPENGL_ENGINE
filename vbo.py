@@ -1,10 +1,12 @@
 import numpy as np
+import pywavefront
 
 
 class VBO:
     def __init__(self, ctx):
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
+        self.vbos['cat'] = CatVBO(ctx)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
@@ -42,8 +44,8 @@ class CubeVBO(BaseVBO):
         return np.array(data, dtype='f4')
 
     def get_vertex_data(self):
-        vertices = [(-1, -1, 1), (1, -1, 1),(1, 1, 1), (-1, 1, 1),
-                    (-1, 1, -1), (-1, -1, -1),(1, -1, -1), (1, 1, -1)]
+        vertices = [(-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1),
+                    (-1, 1, -1), (-1, -1, -1), (1, -1, -1), (1, 1, -1)]
 
         indices = [(0, 2, 3), (0, 1, 2),
                    (1, 7, 2), (1, 6, 7),
@@ -72,4 +74,18 @@ class CubeVBO(BaseVBO):
         normals = np.array(normals, dtype='f4').reshape(36, 3)
         vertex_data = np.hstack([normals, vertex_data])
         vertex_data = np.hstack([tex_coord_data, vertex_data])
+        return vertex_data
+
+
+class CatVBO(BaseVBO):
+    def __init__(self, app):
+        super().__init__(app)
+        self.format = '2f 3f 3f'
+        self.attribs = ['in_texcoord_0', 'in_normal', 'in_position']
+
+    def get_vertex_data(self):
+        objs = pywavefront.Wavefront('objects/cat/20430_Cat_v1_NEW.obj', cache=True, parse=True)
+        obj = objs.materials.popitem()[1]
+        vertex_data = obj.vertices
+        vertex_data = np.array(vertex_data, dtype='f4')
         return vertex_data

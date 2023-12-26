@@ -13,10 +13,18 @@ class Scene:
     def load(self):
         app = self.app
         add = self.add_object
-        add(Cube(app))
-        add(Cube(app, vao_name='cube', tex_id=1, pos=(-2.5, 0, 0)))
-        add(Cube(app, vao_name='cube', tex_id=2, pos=(2.5, 0, 0)))
+
+
+        add(Cat(app, pos=(0, -2, -10)))
+        n, s = 30, 3
+
+        for x in range(-n, n, s):
+            for z in range(-n, n, s):
+                add(Cube(app, pos=(x, -s, z)))
 
     def render(self):
         for obj in self.objects:
             obj.render()
+
+    def destroy(self):
+        pass
