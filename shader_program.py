@@ -1,4 +1,4 @@
-class ShderProgram:
+class ShaderProgram:
     def __init__(self, ctx):
         self.ctx = ctx
         self.programs = {'default': self.get_program('default'), 'skybox': self.get_program('skybox')}

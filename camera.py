@@ -20,13 +20,21 @@ class Camera:
         self.pitch = pitch
         self.m_view = self.get_view_matrix()
         self.m_proj = self.get_projection_matrix()
-        self.m_model = self.get_model_matrix()
+        self.observers = []
+
+    def attach(self, observer):
+        self.observers.append(observer)
+
+    def update_observers(self):
+        for observer in self.observers:
+            observer.update()
 
     def update(self):
         self.move()
         self.rotate()
         self.update_camera_vectors()
         self.m_view = self.get_view_matrix()
+        self.update_observers()
 
     def rotate(self):
         rel_x, rel_y = pg.mouse.get_rel()
@@ -46,33 +54,24 @@ class Camera:
         self.up = glm.normalize(glm.cross(self.right, self.forward))
 
     def move(self):
-
         velocity = SPEED * self.app.delta_time
-
-        # Get the currently pressed keys
         keys = pg.key.get_pressed()
 
-        # Move forward along the object's forward vector
         if keys[pg.K_w]:
             self.position += self.forward * velocity
 
-        # Move backward along the object's forward vector
         if keys[pg.K_s]:
             self.position -= self.forward * velocity
 
-        # Move left along the object's right vector
         if keys[pg.K_a]:
             self.position -= self.right * velocity
 
-        # Move right along the object's right vector
         if keys[pg.K_d]:
             self.position += self.right * velocity
 
-        # Move up along the object's up vector
         if keys[pg.K_q]:
             self.position += self.up * velocity
 
-        # Move down along the object's up vector
         if keys[pg.K_e]:
             self.position -= self.up * velocity
 

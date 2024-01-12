@@ -1,16 +1,32 @@
 import numpy as np
 import pywavefront
 
+from texture import Texture
 
+
+# Update your VBO class
 class VBO:
     def __init__(self, ctx):
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
-        self.vbos['cat'] = CatVBO(ctx)
         self.vbos['skybox'] = SkyBoxVBO(ctx)
+        self.load_objects_from_file(ctx, 'objects.txt')
+
+    def load_objects_from_file(self, ctx, file_path):
+        with open(file_path, 'r') as file:
+            for line in file:
+                if line.startswith('#') or not line.strip():
+                    continue  # Skip comment lines and empty lines
+
+                name, obj_file_path, texture_file_path = line.strip().split()
+                self.vbos[name] = ObjVBO(ctx, obj_file_path, texture_file_path)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
+
+
+
+
 
 
 class BaseVBO:
@@ -78,18 +94,23 @@ class CubeVBO(BaseVBO):
         return vertex_data
 
 
-class CatVBO(BaseVBO):
-    def __init__(self, app):
+class ObjVBO(BaseVBO):
+    def __init__(self, app, obj_file_path, texture_file_path):
+        self.obj_file_path = obj_file_path
+        self.texture_file_path = texture_file_path
         super().__init__(app)
         self.format = '2f 3f 3f'
         self.attribs = ['in_texcoord_0', 'in_normal', 'in_position']
 
     def get_vertex_data(self):
-        objs = pywavefront.Wavefront('objects/cat/20430_Cat_v1_NEW.obj', cache=True, parse=True)
+        objs = pywavefront.Wavefront(self.obj_file_path, cache=True, parse=True)
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices
         vertex_data = np.array(vertex_data, dtype='f4')
         return vertex_data
+
+    def load_texture(self):
+        return Texture(self.ctx).get_texture(self.texture_file_path)
 
 
 class SkyBoxVBO(BaseVBO):

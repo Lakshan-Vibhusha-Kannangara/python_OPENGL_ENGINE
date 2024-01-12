@@ -11,6 +11,7 @@ class Texture:
         self.textures[2] = self.get_texture(path='textures/img.png')
         self.textures['cat'] = self.get_texture(path='objects/cat/20430_cat_diff_v1.jpg')
         self.textures['skybox'] = self.get_texture_cube(dir_path='textures/skybox/', ext='png')
+        self.textures['object'] = self.get_texture(path='objects/dragon/Dragon.jpg')
 
     def get_texture_cube(self, dir_path, ext='png'):
         faces = ['right', 'left', 'top', 'bottom', ] + ['front', 'back'][::-1]

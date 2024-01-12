@@ -1,4 +1,4 @@
-from shader_program import ShderProgram
+from shader_program import ShaderProgram
 from vbo import VBO
 
 
@@ -6,18 +6,34 @@ class VAO:
     def __init__(self, ctx):
         self.ctx = ctx
         self.vbo = VBO(ctx)
-        self.program = ShderProgram(ctx)
+        self.program = ShaderProgram(ctx)
         self.vaos = {}
+        self.setup_vao('cube', 'default')
+        self.setup_vao('skybox', 'skybox')
+        self.setup_vaos_from_file('objects.txt')
 
-        self.vaos['cube'] = self.get_vao(program=self.program.programs['default'], vbo=self.vbo.vbos['cube'])
+    def setup_vaos_from_file(self, file_path):
+        with open(file_path, 'r') as file:
+            for line in file:
+                if line.startswith('#'):
+                    continue
 
-        self.vaos['cat'] = self.get_vao(program=self.program.programs['default'], vbo=self.vbo.vbos['cat'])
+                name, _, _ = line.strip().split()
+                self.setup_vao(name, 'default')
 
-        self.vaos['skybox'] = self.get_vao(program=self.program.programs['skybox'], vbo=self.vbo.vbos['skybox'])
+    def destroy(self):
+        self.vbo.destroy()
+        self.program.destroy()
+        for vao in self.vaos.values():
+            vao.release()
 
-    def get_vao(self, program, vbo):
+        self.setup_vao('cat', 'default')
+
+    def setup_vao(self, vbo_name, program_name):
+        vbo = self.vbo.vbos[vbo_name]
+        program = self.program.programs[program_name]
         vao = self.ctx.vertex_array(program, [(vbo.vbo, vbo.format, *vbo.attribs)])
-        return vao
+        self.vaos[vbo_name] = vao
 
     def create_vao(self, vbo_name, program_name):
         vbo = self.vbo.vbos[vbo_name]
@@ -28,3 +44,5 @@ class VAO:
     def destroy(self):
         self.vbo.destroy()
         self.program.destroy()
+        for vao in self.vaos.values():
+            vao.release()

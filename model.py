@@ -78,6 +78,11 @@ class Cat(ExtendedBaseModel):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
 
 
+class Object(ExtendedBaseModel):
+
+    def __init__(self, app, vao_name='object', tex_id='object', pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
 class SkyBox(BaseModel):
 
     def __init__(self, app, vao_name='skybox', tex_id='skybox', pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):

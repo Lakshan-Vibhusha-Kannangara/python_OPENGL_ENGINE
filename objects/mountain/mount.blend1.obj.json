@@ -1,0 +1,21 @@
+{
+  "created_at": "2024-01-12T15:49:40.313748",
+  "version": "0.1",
+  "mtllibs": [
+    "mount.blend1.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "Material",
+      "vertex_format": "V3F",
+      "byte_offset": 0,
+      "byte_length": 72
+    },
+    {
+      "material": "Material.001",
+      "vertex_format": "T2F_V3F",
+      "byte_offset": 72,
+      "byte_length": 417720
+    }
+  ]
+}
