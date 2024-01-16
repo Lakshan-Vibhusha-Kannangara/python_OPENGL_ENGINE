@@ -10,9 +10,9 @@ class VBO:
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
         self.vbos['skybox'] = SkyBoxVBO(ctx)
-        self.load_objects_from_file(ctx, 'objects.txt')
+        self._load_objects_from_file(ctx, 'objects.txt')
 
-    def load_objects_from_file(self, ctx, file_path):
+    def _load_objects_from_file(self, ctx, file_path):
         with open(file_path, 'r') as file:
             for line in file:
                 if line.startswith('#') or not line.strip():

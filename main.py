@@ -11,31 +11,36 @@ from scene import *
 class GameEngine(BaseGameEngine):
     def __init__(self, win_size=(1600, 900)):
         super().__init__(win_size)
-        self.facade = GameFacade(self)
-
-    def get_time(self):
-        self.facade.time = pg.time.get_ticks() * 0.001
-
-    def check_events(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
-                self.facade.mesh.destroy()
-                self.facade.scene.destroy()
-                pg.quit()
-                sys.exit()
-
-    def render(self):
-        self.ctx.clear(color=(0.08, 0.16, 0.18, 1))
-        self.facade.scene.render()
-        pg.display.flip()
+        self.__facade = GameFacade(self)
 
     def run(self):
         while True:
-            self.get_time()
-            self.check_events()
-            self.facade.camera.update()
-            self.render()
-            self.facade.delta_time = self.clock.tick(60)
+            self.__get_time()
+            self.__check_events()
+            self.__facade.camera.update()
+            self.__render()
+            self.__facade.delta_time = self.clock.tick(60)
+
+
+
+
+
+    def __get_time(self):
+        self.__facade.time = pg.time.get_ticks() * 0.001
+
+    def __check_events(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+                self.__facade.mesh.destroy()
+                self.__facade.scene.destroy()
+                pg.quit()
+                sys.exit()
+
+    def __render(self):
+        self.ctx.clear(color=(0.08, 0.16, 0.18, 1))
+        self.__facade.scene.render()
+        pg.display.flip()
+
 
 
 if __name__ == '__main__':

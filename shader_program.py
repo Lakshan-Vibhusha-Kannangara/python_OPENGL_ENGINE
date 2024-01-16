@@ -1,6 +1,6 @@
 class ShaderProgram:
     def __init__(self, ctx):
-        self.ctx = ctx
+        self.__ctx = ctx
         self.programs = {'default': self.get_program('default'), 'skybox': self.get_program('skybox')}
 
     def get_program(self, shader_program_name):
@@ -10,7 +10,7 @@ class ShaderProgram:
         with open(f'shaders/{shader_program_name}.frag') as file:
             fragment_shader = file.read()
 
-        program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+        program = self.__ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
         return program
 
     def destroy(self):

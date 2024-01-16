@@ -14,5 +14,5 @@ class GameFacade:
         self.light = Light()
         self.camera = Camera(self)
         self.mesh = Mesh(self)
-        self.object_factory = ObjectFactory(self)
-        self.scene = Scene(self.object_factory)
+        self.__object_factory = ObjectFactory(self)
+        self.scene = Scene(self.__object_factory)
