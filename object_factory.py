@@ -13,4 +13,4 @@ class ObjectFactory:
         return Cube(self.app, **kwargs)
 
     def create_object(self, scale, **kwargs):
-        return Object(self.app, vao_name='mountaingi', scale=scale, **kwargs)
+        return Object(self.app, vao_name='mountain', scale=scale, **kwargs)
