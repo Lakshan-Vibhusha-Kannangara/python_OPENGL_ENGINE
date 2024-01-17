@@ -25,10 +25,6 @@ class VBO:
         [vbo.destroy() for vbo in self.vbos.values()]
 
 
-
-
-
-
 class BaseVBO:
 
     def __init__(self, ctx):

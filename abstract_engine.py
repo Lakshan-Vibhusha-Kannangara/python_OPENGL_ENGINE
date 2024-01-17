@@ -10,7 +10,7 @@ class BaseGameEngine:
         self.ctx.enable(flags=mgl.DEPTH_TEST | mgl.CULL_FACE)
         self.clock = pg.time.Clock()
 
-    def __on_init(self):
+    def __on_init(self) -> None:
         pg.init()
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)

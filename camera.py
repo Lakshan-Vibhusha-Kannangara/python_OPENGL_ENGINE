@@ -9,21 +9,24 @@ SENSITIVITY = 0.05
 
 
 class Camera:
+
     def __init__(self, app, position=(0, 0, 4), yaw=-90, pitch=0):
         self.__up = glm.vec3(0, 1, 0)
         self.__right = glm.vec3(1, 0, 0)
         self.__forward = glm.vec3(0, 0, -1)
-
+# public variables
         self.app = app
         self.aspect_ratio = self.app.WIN_SIZE[0] / self.app.WIN_SIZE[1]
         self.position = glm.vec3(position)
         self.m_view = self.__get_view_matrix()
         self.m_proj = self.__get_projection_matrix()
+
+##
         self.__yaw = yaw
         self.__pitch = pitch
         self.__observers = []
 
-    def update(self):
+    def update(self) -> None:
         self.__move()
         self.__rotate()
         self.__update_camera_vectors()

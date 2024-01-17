@@ -13,15 +13,15 @@ class GameEngine(BaseGameEngine):
         super().__init__(win_size)
         self.__facade = GameFacade(self)
 
-    def run(self):
+    def run(self) -> None:
+        count = 0
         while True:
+            count += 1
             self.__get_time()
             self.__check_events()
             self.__facade.camera.update()
             self.__render()
             self.__facade.delta_time = self.clock.tick(60)
-
-
 
 
 
@@ -39,8 +39,8 @@ class GameEngine(BaseGameEngine):
     def __render(self):
         self.ctx.clear(color=(0.08, 0.16, 0.18, 1))
         self.__facade.scene.render()
-        pg.display.flip()
 
+        pg.display.flip()
 
 
 if __name__ == '__main__':

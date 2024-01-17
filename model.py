@@ -16,10 +16,10 @@ class BaseModel:
         self._m_model = self._get_model_matrix()
         self._tex_id = tex_id
 
-    def render(self):
+    def render(self) -> None:
         self.update()
         self.vao.render()
-    def update(self):
+    def update(self) -> None:
         pass
 
     def _get_model_matrix(self):
@@ -39,7 +39,7 @@ class ExtendedBaseModel(BaseModel):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self._on_init()
 
-    def update(self):
+    def update(self) -> None:
         self.texture.use()
         self.program['camPos'].write(self.camera.position)
         self.program['m_view'].write(self.camera.m_view)
@@ -80,7 +80,7 @@ class Cat(ExtendedBaseModel):
 
 class Object(ExtendedBaseModel):
 
-    def __init__(self, app, vao_name='object', tex_id='object', pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
+    def __init__(self, app,  tex_id,vao_name, pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
 
 class SkyBox(BaseModel):
@@ -89,7 +89,7 @@ class SkyBox(BaseModel):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self._on_init()
 
-    def update(self):
+    def update(self) -> None:
         self.program['m_view'].write(glm.mat4(glm.mat3(self.camera.m_view)))
 
     def _on_init(self):
