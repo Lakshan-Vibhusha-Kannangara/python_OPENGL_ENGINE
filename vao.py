@@ -3,9 +3,9 @@ from vbo import VBO
 
 
 class VAO:
-    def __init__(self, ctx):
+    def __init__(self, ctx,vbo):
         self.ctx = ctx
-        self.vbo = VBO(ctx)
+        self.vbo = vbo
         self.vaos = {}
         self.__program = ShaderProgram(ctx)
         self.setup_vao('cube', 'default')
