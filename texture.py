@@ -13,7 +13,6 @@ class Texture:
         self.textures['skybox'] = self.get_texture_cube(dir_path='textures/skybox/', ext='png')
 
 
-
     def get_texture_cube(self, dir_path, ext='png'):
         faces = ['right', 'left', 'top', 'bottom', ] + ['front', 'back'][::-1]
         textures = []

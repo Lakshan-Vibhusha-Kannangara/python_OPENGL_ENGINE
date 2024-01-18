@@ -21,12 +21,12 @@ class Scene:
 
         add = self.__add_object
 
-        add(object_factory.create_cat(pos=(0, -2, -10)))
+        #add(object_factory.create_cat(pos=(0, -2, -10)))
         n, s = 30, 3
-        add(object_factory.create_object(vao_name='heart', tex_id='heart', tex_path='objects/heart/heart.jpeg',
-                                         scale=(0.1, 0.1, 0.1), pos=(10, 1, 1)))
-        add(object_factory.create_object(vao_name='heart', tex_id='heart', tex_path='objects/heart/heart.jpeg',
-                                         scale=(0.1, 0.1, 0.1), pos=(14, 1, 1)))
+
+        add(object_factory.create_object(vao_name='horse', tex_id='horse',obj_path='objects/horse/10026_Horse_v01-it2.obj',
+                                         tex_path='objects/horse/Horse_v01.jpg',
+                                         scale=(0.001, 0.001, 0.001), pos=(0, -1, 0)))
         for x in range(-n, n, s):
             for z in range(-n, n, s):
                 pass
