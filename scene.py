@@ -4,7 +4,6 @@ from object_factory import ObjectFactory
 
 class Scene:
     def __init__(self, object_factory: ObjectFactory):
-
         self.__objects = []
         self.__load(object_factory)
         self.__skybox = SkyBox(object_factory.app)
@@ -27,10 +26,14 @@ class Scene:
         add(object_factory.create_object(vao_name='horse', tex_id='horse',obj_path='objects/horse/10026_Horse_v01-it2.obj',
                                          tex_path='objects/horse/Horse_v01.jpg',
                                          scale=(0.001, 0.001, 0.001), pos=(0, -1, 0)))
-        for x in range(-n, n, s):
-            for z in range(-n, n, s):
-                pass
-                add(object_factory.create_cube(pos=(x, -s, z)))
+
+        add(object_factory.create_object(vao_name='grass', tex_id='grass',obj_path='objects/grass/10450_Rectangular_Grass_Patch_v1_iterations-2.obj',
+                                         tex_path='objects/grass/10450_Rectangular_Grass_Patch_v1_Diffuse.jpg',
+                                         scale=(0.1, 0.1, 0.1), pos=(0, -2, 0)))
+       # for x in range(-n, n, s):
+           # for z in range(-n, n, s):
+             #   pass
+              #  add(object_factory.create_cube(pos=(x, -s, z)))
 
     def __add_object(self, obj):
         self.__objects.append(obj)
