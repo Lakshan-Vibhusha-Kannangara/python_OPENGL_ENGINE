@@ -5,7 +5,7 @@ FOV = 50
 NEAR = 0.1
 FAR = 100
 SPEED = 0.01
-SENSITIVITY = 0.05
+SENSITIVITY = 0.4
 
 
 class Camera:

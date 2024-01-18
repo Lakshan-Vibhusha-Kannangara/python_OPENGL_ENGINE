@@ -19,6 +19,7 @@ class BaseModel:
     def render(self) -> None:
         self.update()
         self.vao.render()
+
     def update(self) -> None:
         pass
 
@@ -30,7 +31,6 @@ class BaseModel:
         m_model = glm.rotate(m_model, self.__rot.z, glm.vec3(0, 0, 1))
         m_model = glm.scale(m_model, self._scale)
         return m_model
-
 
 
 class ExtendedBaseModel(BaseModel):
@@ -61,7 +61,6 @@ class ExtendedBaseModel(BaseModel):
 
         # Use create_vao method to create a new VAO for each cube
 
-
     def destroy(self):
         pass
 
@@ -80,8 +79,9 @@ class Cat(ExtendedBaseModel):
 
 class Object(ExtendedBaseModel):
 
-    def __init__(self, app,  tex_id,vao_name, pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
+    def __init__(self, app, tex_id, vao_name, pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
 
 class SkyBox(BaseModel):
 
@@ -101,4 +101,3 @@ class SkyBox(BaseModel):
         # mvp
         self.program['m_proj'].write(self.camera.m_proj)
         self.program['m_view'].write(glm.mat4(glm.mat3(self.camera.m_view)))
-

@@ -7,11 +7,10 @@ from texture import Texture
 # Update your VBO class
 class VBO:
     def __init__(self, ctx):
-        self.ctx= ctx
+        self.ctx = ctx
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
         self.vbos['skybox'] = SkyBoxVBO(ctx)
-
 
     def _load_objects_from_file(self, ctx, file_path):
         with open(file_path, 'r') as file:
@@ -23,7 +22,7 @@ class VBO:
                 self.vbos[name] = ObjVBO(ctx, obj_file_path, texture_file_path)
 
     def load_objects_from_obj(self, ctx, name, obj_file_path, texture_file_path):
-                self.vbos[name] = ObjVBO(ctx, obj_file_path, texture_file_path)
+        self.vbos[name] = ObjVBO(ctx, obj_file_path, texture_file_path)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]

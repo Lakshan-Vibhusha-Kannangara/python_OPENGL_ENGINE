@@ -29,7 +29,7 @@ class Scene:
 
         add(object_factory.create_object(vao_name='grass', tex_id='grass',obj_path='objects/grass/10450_Rectangular_Grass_Patch_v1_iterations-2.obj',
                                          tex_path='objects/grass/10450_Rectangular_Grass_Patch_v1_Diffuse.jpg',
-                                         scale=(0.1, 0.1, 0.1), pos=(0, -2, 0)))
+                                         scale=(1, 1, 1), pos=(0, -9, 0)))
        # for x in range(-n, n, s):
            # for z in range(-n, n, s):
              #   pass
